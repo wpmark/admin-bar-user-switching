@@ -4,7 +4,7 @@
 * Contributors: [@wpmark](http://twitter.com/wpmark)
 * Plugin Name: Admin Bar User Switching
 * Plugin URI: [http://markwilkinson.me](http://markwilkinson.me)
-* Description: PxlCore: Extends the WordPress User Switching plugin to allow user switching to take place from the Admin bar.
+* Description: Extends the WordPress [User Switching](http://wordpress.org/extend/plugins/user-switching/) plugin to allow user switching to take place from the Admin bar.
 * Author: [Mark Wilkinson](http://markwilkinson.me)
 * Author URI: [http://markwilkinson.me](http://markwilkinson.me)
 * License: GNU General Public License v2.0
