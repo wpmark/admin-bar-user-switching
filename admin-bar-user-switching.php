@@ -115,7 +115,7 @@ function mdw_user_switching_adminbar() {
 						$mdw_user_info = get_userdata( $mdw_user->ID );
 											
 						/* build menu url */
-						$mdw_full_menu_url = $user_switching->switch_to_url( $mdw_user->ID );
+						$mdw_full_menu_url = $user_switching->switch_to_url( $mdw_user );
 						
 						/* build menu id for each user */
 						$mdw_menu_id = sanitize_key( $mdw_user_info->first_name . '-' . $mdw_user_info->last_name );
@@ -134,11 +134,12 @@ function mdw_user_switching_adminbar() {
 				
 			} // check we are super admin
 			
-			/* build the switch back url */
-			$mdw_switch_back_url = $user_switching->switch_back_url();
 			
 			/* check if there is an old user stored i.e. this logged in user is through switching */
 			if( $user_switching->get_old_user() ) {
+				
+				/* build the switch back url */
+				$mdw_switch_back_url = $user_switching->switch_back_url( $user_switching->get_old_user() );
 				
 				/* we are logged in throught swtiching so add admin bar menu to create the switch back link */
 				$wp_admin_bar->add_menu( array(
