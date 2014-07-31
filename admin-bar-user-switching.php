@@ -115,7 +115,7 @@ function mdw_user_switching_adminbar() {
 						$mdw_user_info = get_userdata( $mdw_user->ID );
 											
 						/* build menu url */
-						$mdw_full_menu_url = $user_switching->switch_to_url( $mdw_user );
+						$mdw_full_menu_url = $user_switching->switch_to_url( $mdw_user ).'&redirect_to='.mdw_current_url();
 						
 						/* build menu id for each user */
 						$mdw_menu_id = sanitize_key( $mdw_user_info->first_name . '-' . $mdw_user_info->last_name );
