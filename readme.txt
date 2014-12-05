@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== Admin Bar User Switching ===
 Contributors: wpmarkuk
 Donate link: http://markwilkinson.me/saythanks/
 Tags: users, user switching
