@@ -5,14 +5,14 @@ Plugin URI: http://markwilkinson.me
 Description: Building upon the <a href="http://wordpress.org/extend/plugins/user-switching/">User Switching plugin</a> by John Blackbourn this plugin adds a dropdown list of users in the WordPress admin bar with a link to switch to that user, then providing a switch back link in the admin bar too.
 Author: Mark Wilkinson
 Author URI: http://markwilkinson.me
-Version: 0.2
+Version: 1.0
 */
 
-/******************************************************************************************
-* Function abus_current_url
-* Determine the URL of the currently viewed page - will return array if $parse set to true
-* Taken from https://github.com/scottsweb/null/blob/master/functions.php
-******************************************************************************************/
+/**
+ * Function abus_current_url
+ * Determine the URL of the currently viewed page - will return array if $parse set to true
+ * Taken from https://github.com/scottsweb/null/blob/master/functions.php
+ */
 function abus_current_url( $parse = false ) {
 
 	$s = empty( $_SERVER[ 'HTTPS' ] ) ? '' : ( $_SERVER[ 'HTTPS' ] == 'on' ) ? 's' : '';
@@ -27,22 +27,21 @@ function abus_current_url( $parse = false ) {
 	
 }
 
-/******************************************************************************************
-* Function abus_usab_initialisation
-* Initialisation plugin to add error message to admin if user switching plugin not present
-******************************************************************************************/
+/**
+ * Function abus_usab_initialisation
+ * Initialisation plugin to add error message to admin if user switching plugin not present
+ */
 function abus_usab_initialisation() {
-	add_action( 'admin_notices', 'abus_usab_error' );
+	add_action( 'admin_notices', 'abus_error' );
 }
 
+/**
+ * Function abus_usab_error
+ * Deactivates the plugin and throws and error message when User Switching plugin not active
+ */
+function abus_error() {
 
-/******************************************************************************************
-* Function abus_usab_error
-* Deactivates the plugin and throws and error message when User Switching plugin not active
-******************************************************************************************/
-function abus_usab_error() {
-
-	if( !class_exists( 'user_switching' ) ) {
+	if( ! class_exists( 'user_switching' ) ) {
 	
 		deactivate_plugins( 'admin-bar-user-switching/admin-bar-user-switching.php', 'admin-bar-user-switching.php' );
 	
@@ -55,106 +54,172 @@ function abus_usab_error() {
 /* start this plugin once all other plugins have loaded */
 add_action( 'plugins_loaded', 'abus_usab_initialisation' );
 
-/******************************************************************************************
-* Function abus_user_switching_adminbar
-* Adds the Switcht to User menu items in the WordPress admin bar as well as a Switch Back
-* link when users have switched.
-******************************************************************************************/
-function abus_user_switching_adminbar() {
+/**
+ * function abus_adminbar_output()
+ * output the admin bar markup for the user search box
+ */
+function abus_adminbar_output() {
 	
-	/* include plugin file to make this work on the front end */
-	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-	
-	/* check whether the user switching plugin is active */
-	if( is_plugin_active( 'user-switching/user-switching.php' ) ) {
-	
-		/* check wether the admin bar is showing */
-		if( is_admin_bar_showing() ) {
-			
-			/* load the user switching plugin global variable */
-			global $user_switching;
-			
-			/* load the global admin bar variable */
-			global $wp_admin_bar;
-			
-			/* check whether the current user is super admin */
-			if( is_super_admin() ) {
-			
-				/* add admin bar menu for switching to a user */
-				$wp_admin_bar->add_menu( array(
-					'id'    => 'abus_switch_to_user',
-					'title' => 'Switch to User',
-					'href'  => '#',
-				) );
-				
-				/* set some arguments for our user query */
-				$abus_user_query_args = array(
-					'role' => '',
-					'orderby' => 'display_name'
-				);
-							
-				/* create a new user query */
-				$abus_user_query = new WP_User_Query( $abus_user_query_args );
-				
-				/* store results from user query */
-				$abus_users = $abus_user_query->get_results();
-				
-				$abus_current_user = get_current_user_id();
-				
-				/* check we have users */
-				if( !empty( $abus_users ) ) {
-					
-					/* loop through each user */
-					foreach( $abus_users as $abus_user ) {
-					
-						/* check whether this user is the current user */
-						if( $abus_current_user == $abus_user->ID )
-							continue;
-						
-						/* get all of this users data */
-						$abus_user_info = get_userdata( $abus_user->ID );
-											
-						/* build menu url */
-						$abus_full_menu_url = $user_switching->switch_to_url( $abus_user ).'&redirect_to='.abus_current_url();
-						
-						/* build menu id for each user */
-						//$abus_menu_id = sanitize_key( $abus_user_info->first_name . '-' . $abus_user_info->last_name );
-						
-						/* add admin bar menu to create each users switch to link */
-						$wp_admin_bar->add_menu( array(
-							'id'    => 'user-' . $abus_user_info->ID,
-							'parent' => 'abus_switch_to_user',
-							'title' => $abus_user_info->display_name,
-							'href'  => $abus_full_menu_url,
-						) );
-						
-					} // 
-					
-				} // check we have users
-				
-			} // check we are super admin
-			
-			
-			/* check if there is an old user stored i.e. this logged in user is through switching */
-			if( $user_switching->get_old_user() ) {
-				
-				/* build the switch back url */
-				$abus_switch_back_url = $user_switching->switch_back_url( $user_switching->get_old_user() );
-				
-				/* we are logged in throught swtiching so add admin bar menu to create the switch back link */
-				$wp_admin_bar->add_menu( array(
-					'id'    => 'switch_back',
-					'title' => 'Switch Back',
-					'href'   => add_query_arg( array( 'redirect_to' => esc_url( abus_current_url() ) ), $abus_switch_back_url )
-				) );
-				
-			} // end if old user present
-			
-		} // end if admin bar showing
+	/* check wether the admin bar is showing */
+	if( is_admin_bar_showing() ) {
 		
-	} // check user switching plugin is active
+		global $user_switching;
+		
+		/* load the global admin bar variable */
+		global $wp_admin_bar;
+			
+		/* check whether the current user is super admin */
+		if( is_super_admin() ) {
+		
+			/* add admin bar menu for switching to a user */
+			$wp_admin_bar->add_menu(
+				array(
+					'id'    => 'abus_switch_to_user',
+					'title' => apply_filters( 'abus_switch_to_text', 'Switch to User' ),
+					'href'  => '#',
+				)
+			);
+			
+			/* create a nonce */
+			$nonce = wp_create_nonce( 'abus_user_search_nonce' );
+			
+			/* build the user search form markup */
+			$form = '
+				<div id="abus_wrapper">
+					<form method="post" action="abus_user_search">
+						<input id="abus_search_text" name="abus_search_text" type="text" placeholder="Enter a username" />
+						<input id="abus_search_submit" name="abus_search_submit" type="submit" />
+						<input name="abus_current_url" type="hidden" value="' . esc_url( abus_current_url() ) . '" />
+						<input name="abus_nonce" type="hidden" value="' . wp_create_nonce( 'abus_nonce' ) . '" />
+					</form>
+					<div id="abus_result"></div>
+				</div>
+			';
+			
+			/* add the admin bar sub menu item for the search form */
+			$wp_admin_bar->add_menu(
+				array(
+					'id'		=> 'abus_user_search',
+					'parent'	=> 'abus_switch_to_user',
+					'title'		=> apply_filters( 'abus_form_output', $form ),
+				)
+			);
+			
+		} // end if super admin
+		
+		/* check if there is an old user stored i.e. this logged in user is through switching */
+		if( $user_switching->get_old_user() ) {
+			
+			/* build the switch back url */
+			$abus_switch_back_url = $user_switching->switch_back_url( $user_switching->get_old_user() );
+			
+			/* we are logged in throught swtiching so add admin bar menu to create the switch back link */
+			$wp_admin_bar->add_menu( array(
+				'id'    => 'switch_back',
+				'title' => apply_filters( 'abus_switch_back_text', 'Switch Back' ),
+				'href'   => add_query_arg( array( 'redirect_to' => esc_url( abus_current_url() ) ), $abus_switch_back_url )
+			) );
+			
+		} // end if old user present
+			
+	} // end if admin bar showing
+	
+}
+
+add_action( 'wp_before_admin_bar_render', 'abus_adminbar_output', 1 );
+
+/**
+ * function abus_user_search()
+ * searches for the required user depending what was entered into the search box
+ * in the admin bar
+ */
+function abus_user_search() {
+		
+	global $user_switching;
+	
+	/* get the posted query search, current url and nonce */
+	$q = $_POST[ 'query' ];
+	$url = $_POST[ 'currenturl' ];
+	$nonce = $_POST[ 'nonce' ];
+	
+	/* check nonce passes for intent */
+	if( ! wp_verify_nonce( $nonce, 'abus_nonce' ) )
+		exit();
+	
+	$args = array(
+		'search'         => $q,
+		'search_columns' => array( 'user_login' )
+	);
+	
+	/* query the users */
+	$user_query = new WP_User_Query( $args );
+	
+	echo '<div class="abus_user_results">';
+	
+	/* check we have results returned */
+	if ( ! empty( $user_query->results ) ) {
+		
+		/* loop through each returned user */
+		foreach ( $user_query->results as $user ) {
+			
+			echo '<p class="result"><a href="' . $user_switching->switch_to_url( $user ).'&redirect_to=' . esc_url( $url ) . '">' . $user->display_name . '</a></p>';
+			
+		}
+	
+	/* no users match search */
+	} else {
+		
+		echo '<p class="result">No users found.</p>';
+		
+	}
+	
+	echo '</div>';
+	
+	die();
+	
+}
+
+add_action( 'wp_ajax_abus_user_search', 'abus_user_search' );
+
+/**
+ * function abus_enqueue_scripts()
+ * enqueues the necessary js and css for the plugin
+ */
+function abus_enqueue_scripts() {
+   
+	wp_register_script(
+		'abus_script',
+		plugins_url( '/assets/js/abus_script.js', __FILE__ ),
+		array( 'jquery' )
+	);
+	
+	wp_localize_script(
+		'abus_script',
+		'abus_ajax',
+		array(
+			'ajaxurl' => admin_url( 'admin-ajax.php' )
+		)
+	);        
+	
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'abus_script' );
 
 }
 
-/* hook our customisations of the admin bar function into wordpress */
-add_action('wp_before_admin_bar_render', 'abus_user_switching_adminbar', 0);
+add_action( 'init', 'abus_enqueue_scripts' );
+
+/**
+ * function abus_enqueue_styles()
+ * enqueues the plugin stylsheet
+ */
+function abus_enqueue_styles() {
+	
+	/* enqueue the stylesheet */
+	wp_enqueue_style(
+		'abus_style',
+		plugins_url( '/assets/css/abus_style.css', __FILE__ )
+	);
+	
+}
+
+add_action( 'wp_enqueue_scripts', 'abus_enqueue_styles' );

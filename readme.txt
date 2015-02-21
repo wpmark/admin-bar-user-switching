@@ -8,32 +8,41 @@ Stable tag: 0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Extends the excellent User Switching plugin by John Blackbourn by adding a User Switching link to the admin bar.
+Extends the excellent User Switching plugin by John Blackbourn by adding a User Switching to the admin bar for quick and easy user switching.
 
 == Description ==
 
-An admin bar “Switch to User” options is provided which on hover lists the users on the site which you can switch to. Best for sites with less than 20 users!
+An admin bar “Switch to User” option is provided which on hover provides a search box where you can query a user to switch to. The results are links to switch to that user. This plugin is great for when you are building sites for clients and it is beneficial to see the site as your logged in client see it.
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
+To install the plugin:
 
-e.g.
-
-1. Upload `admin-bar-user-witching` to the `/wp-content/plugins/` directory
+1. Upload to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
-Nothing so far!
+**How do I switch to a user?**
+
+As with the User Switching plugin you can still use the "Switch To" link on the users overview page - nothing changes there. However the point of this plugin is that it gives you a Switch to User link in the WordPress admin bar. This reveals a search box where you can search for a users username. The results of this search are clickable to "Switch To" that user.
+
+**What can be entered into the username search box?**
+
+You can enter the exact username of a user or you can use wildcards to find a user e.g. *another* would find all users with the word another in their username. [See here for more information on wildcard searches](http://codex.wordpress.org/Class_Reference/WP_User_Query#Search_Parameters)
 
 == Screenshots ==
-N/A
+
+1. A Switch to user item is added to the WordPress admin bar to allow you to search for a user to switch to.
 
 == Changelog ==
 
+= 1.0 =
+* Make the Switch to User link reveals a user search box
+* Uses AJAX to populate the user switch to list which therefore makes the plugin more compatible for sites with lots of users.
+
 = 0.1 =
-Initial release.
+* Initial release.
 
 == Upgrade Notice ==
 Update through the WordPress admin as notified.
