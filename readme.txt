@@ -45,7 +45,7 @@ It does indeed, although not too many! The following filters can be used.
 
 == Changelog ==
 
-= 1.0.2 =
+= 1.0.3 =
 * Output styles on both front and backend to make the form look correct when results are returned.
 * Create a filter for developers to amend the styles as needed to match their theme
 * Use correct hook for enqueuing javascript file
