@@ -29,7 +29,7 @@ As with the User Switching plugin you can still use the "Switch To" link on the 
 
 **What can be entered into the username search box?**
 
-You can enter the exact username of a user or you can use wildcards to find a user e.g. *another* would find all users with the word another in their username. [See here for more information on wildcard searches](http://codex.wordpress.org/Class_Reference/WP_User_Query#Search_Parameters)
+You can enter the exact username of a user or you can use wildcards to find a user e.g. *another* would find all users with the word another in their username. [See here for more information on wildcard searches](http://codex.wordpress.org/Class_Reference/WP_User_Query#Search_Parameters). Clicking submit with nothing in the search box will search all users except the current logged in user.
 
 **Has the plugin any filters or actions for developers?**
 
