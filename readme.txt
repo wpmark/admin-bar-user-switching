@@ -4,7 +4,7 @@ Donate link: http://markwilkinson.me/saythanks/
 Tags: users, user switching
 Requires at least: 3.1
 Tested up to: 4.0.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,7 +45,13 @@ It does indeed, although not too many! The following filters can be used.
 
 == Changelog ==
 
-= 1.0.2 +
+= 1.0.2 =
+* Output styles on both front and backend to make the form look correct when results are returned.
+* Create a filter for developers to amend the styles as needed to match their theme
+* Use correct hook for enqueuing javascript file
+* Make sure the current logged in user does not appear in the search results
+
+= 1.0.2 =
 * Thanks for @johnbillion for pointing out the incorrect capabilities check for switch_to_user. This now checks against edit_user so users who can edit users will be the Swtich to link.
 
 = 1.0.1 =

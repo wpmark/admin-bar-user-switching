@@ -5,7 +5,7 @@ Plugin URI: http://markwilkinson.me
 Description: Building upon the <a href="http://wordpress.org/extend/plugins/user-switching/">User Switching plugin</a> by John Blackbourn this plugin adds a dropdown list of users in the WordPress admin bar with a link to switch to that user, then providing a switch back link in the admin bar too.
 Author: Mark Wilkinson
 Author URI: http://markwilkinson.me
-Version: 1.0.2
+Version: 1.0.3
 */
 
 /**
@@ -162,6 +162,11 @@ function abus_user_search() {
 		/* loop through each returned user */
 		foreach ( $user_query->results as $user ) {
 			
+			/* if this user is the current user - skip to next user */
+			if( $user->ID == get_current_user_id() ) {
+				continue;
+			}
+			
 			$link = user_switching::maybe_switch_url( $user );
 			if ( $link ) {
 				$link = add_query_arg( 'redirect_to', $url, $link );
@@ -210,20 +215,25 @@ function abus_enqueue_scripts() {
 
 }
 
-add_action( 'init', 'abus_enqueue_scripts' );
+add_action( 'wp_enqueue_scripts', 'abus_enqueue_scripts' );
+add_action( 'admin_enqueue_scripts', 'abus_enqueue_scripts' );
 
 /**
  * function abus_enqueue_styles()
  * enqueues the plugin stylsheet
  */
-function abus_enqueue_styles() {
+function abus_styles() {
 	
-	/* enqueue the stylesheet */
-	wp_enqueue_style(
-		'abus_style',
-		plugins_url( '/assets/css/abus_style.css', __FILE__ )
-	);
+	$styles = '
+		<style type="text/css">
+			#wpadminbar .quicklinks #wp-admin-bar-abus_switch_to_user ul li .ab-item { height: auto; }
+			#abus_user_results { background-color: #000000; }
+		</style>
+	';
+	
+	echo apply_filters( 'abus_styles', $styles );
 	
 }
 
-add_action( 'wp_enqueue_scripts', 'abus_enqueue_styles' );
+add_action( 'wp_head', 'abus_styles' );
+add_action( 'admin_head', 'abus_styles' );
