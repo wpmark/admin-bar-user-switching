@@ -4,7 +4,7 @@ Donate link: http://markwilkinson.me/saythanks/
 Tags: users, user switching
 Requires at least: 3.1
 Tested up to: 4.0.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,12 +38,17 @@ It does indeed, although not too many! The following filters can be used.
 * abus_switch_to_text - allows developers to change the text that is displayed in the admin menu which, when on hover shows the search box
 * abus_form_output - this filter can be used to change the markup of the form which is used in the plugin for user searching
 * abus_switch_back_text - this filter is used to change the text shown to switch back to the original logged in user
+* abus_switch_to_url- this filter is used to alter the redirect url for different users as the filter is passed to switch to user user object
 
 == Screenshots ==
 
 1. A Switch to user item is added to the WordPress admin bar to allow you to search for a user to switch to.
 
 == Changelog ==
+
+= 1.0.4 =
+* Correct an issues which could result in a PHP error when the plugin is active and the User Switching plugin is not active.
+* Add filter for the switch to redirect url named `abus_switch_to_url` - this allows devs to alter the redirect url for different users as the filter is passed to switch to user user object.
 
 = 1.0.3 =
 * Output styles on both front and backend to make the form look correct when results are returned.
