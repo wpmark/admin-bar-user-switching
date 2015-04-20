@@ -5,7 +5,7 @@ Plugin URI: http://markwilkinson.me
 Description: Building upon the <a href="http://wordpress.org/extend/plugins/user-switching/">User Switching plugin</a> by John Blackbourn this plugin adds a dropdown list of users in the WordPress admin bar with a link to switch to that user, then providing a switch back link in the admin bar too.
 Author: Mark Wilkinson
 Author URI: http://markwilkinson.me
-Version: 1.0.4
+Version: 1.0.5
 */
 
 /**
@@ -122,7 +122,7 @@ function abus_adminbar_output() {
 			$wp_admin_bar->add_menu( array(
 				'id'    => 'switch_back',
 				'title' => apply_filters( 'abus_switch_back_text', 'Switch Back' ),
-				'href'   => add_query_arg( array( 'redirect_to' => esc_url( abus_current_url() ) ), $abus_switch_back_url )
+				'href'   => esc_url( add_query_arg( array( 'redirect_to' => abus_current_url() ), $abus_switch_back_url ) )
 			) );
 			
 		} // end if old user present
