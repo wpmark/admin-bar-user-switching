@@ -4,7 +4,7 @@ Donate link: http://markwilkinson.me/saythanks/
 Tags: users, user switching
 Requires at least: 3.1
 Tested up to: 4.0.1
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,9 @@ It does indeed, although not too many! The following filters can be used.
 1. A Switch to user item is added to the WordPress admin bar to allow you to search for a user to switch to.
 
 == Changelog ==
+
+= 1.0.6 =
+* Make the capability (edit_users by default) needed to be able to switch to users be filterable.
 
 = 1.0.5 =
 * Escape instances of add_query_arg in accordance with https://make.wordpress.org/plugins/2015/04/20/fixing-add_query_arg-and-remove_query_arg-usage/
