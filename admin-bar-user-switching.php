@@ -5,7 +5,7 @@ Plugin URI: http://markwilkinson.me
 Description: Building upon the <a href="http://wordpress.org/extend/plugins/user-switching/">User Switching plugin</a> by John Blackbourn this plugin adds a dropdown list of users in the WordPress admin bar with a link to switch to that user, then providing a switch back link in the admin bar too.
 Author: Mark Wilkinson
 Author URI: http://markwilkinson.me
-Version: 1.0.6
+Version: 1.0.7
 */
 
 /**
@@ -143,17 +143,19 @@ function abus_user_search() {
 	global $user_switching;
 	
 	/* get the posted query search, current url and nonce */
-	$q = $_POST[ 'query' ];
-	$url = $_POST[ 'currenturl' ];
-	$nonce = $_POST[ 'nonce' ];
+	$q = esc_attr( $_POST[ 'query' ] );
+	$url = esc_url( $_POST[ 'currenturl' ] );
+	$nonce = esc_attr( $_POST[ 'nonce' ] );
 	
 	/* check nonce passes for intent */
 	if( ! wp_verify_nonce( $nonce, 'abus_nonce' ) )
 		exit();
 	
-	$args = array(
-		'search'         => $q,
-		'search_columns' => array( 'user_login' )
+	$args = apply_filters(
+		'abus_user_search_args',
+		array(
+			'search'	=> $q,
+		)
 	);
 	
 	/* query the users */
