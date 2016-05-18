@@ -98,6 +98,7 @@ jQuery( function( $ ) {
 			var el = $( ev.target );
 
 			if ( el.filter( ':input' ).size() ) {
+				magicWordProgress = '';
 				return;
 			}
 
@@ -109,11 +110,15 @@ jQuery( function( $ ) {
 			if ( magicWord === magicWordProgress ) {
 
 				if ( entryButton.length ) {
+					magicWordProgress = '';
 					entryButton.parent().addClass('hover');
 					$input.focus();
+
 					return false;
 				} else if ( exitButton.length ) {
+					magicWordProgress = '';
 					exitButton.focus();
+
 					return false;
 				}
 
