@@ -208,13 +208,18 @@ function abus_enqueue_scripts() {
 		plugins_url( '/assets/js/abus_script.js', __FILE__ ),
 		array( 'jquery' )
 	);
-	
+
+	$args = array(
+		'ajaxurl' => admin_url( 'admin-ajax.php' )
+		'magicWord' => '',
+	);
+
+	$args = apply_filters( 'abus_ajax_args', $args );
+
 	wp_localize_script(
 		'abus_script',
 		'abus_ajax',
-		array(
-			'ajaxurl' => admin_url( 'admin-ajax.php' )
-		)
+		$args
 	);        
 	
 	wp_enqueue_script( 'jquery' );
