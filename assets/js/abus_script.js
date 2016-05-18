@@ -84,5 +84,5 @@ jQuery( function( $ ) {
 
 		return false;
 
-	} )
+	} );
 } );
