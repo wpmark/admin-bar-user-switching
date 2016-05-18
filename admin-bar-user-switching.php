@@ -5,7 +5,7 @@
  * Description: Building upon the <a href="http://wordpress.org/extend/plugins/user-switching/">User Switching plugin</a> by John Blackbourn this plugin adds a dropdown list of users in the WordPress admin bar with a link to switch to that user, then providing a switch back link in the admin bar too.
  * Author: Mark Wilkinson
  * Author URI: http://markwilkinson.me
- * Version: 1.0.7
+ * Version: 1.1
 */
 
 /**
