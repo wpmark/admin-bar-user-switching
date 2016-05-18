@@ -154,7 +154,7 @@ function abus_user_search() {
 	$args = apply_filters(
 		'abus_user_search_args',
 		array(
-			'search'	=> $q,
+			'search'	=> is_numeric( $q ) ? $q : '*' . $q . '*',
 		)
 	);
 	
