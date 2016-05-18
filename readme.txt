@@ -14,6 +14,12 @@ Extends the excellent User Switching plugin by John Blackbourn by adding a User 
 
 An admin bar “Switch to User” option is provided which on hover provides a search box where you can query a user to switch to. The results are links to switch to that user. This plugin is great for when you are building sites for clients and it is beneficial to see the site as your logged in client see's it.
 
+And there is an optional mode where you can use a custom keyboard combination, say 'su', and it activates the form where you search for users, and then you can use keyboard arrows to navigate the list of results, and the return key to switch to the selected user. The same combo can be used to focus the 'Switch Off' link, following a return to simulate a click.
+
+To activate this feature and set the custom keyboard combination, aka magic word, you need to use the `abus_ajax_args` and add a 'magicWord' variable.
+
+Note that keyboard navigation is not dependant on the custom keyboard combination, and can be used out of the box.
+
 == Installation ==
 
 To install the plugin:
@@ -27,9 +33,11 @@ To install the plugin:
 
 As with the User Switching plugin you can still use the "Switch To" link on the users overview page - nothing changes there. However the point of this plugin is that it gives you a Switch to User link in the WordPress admin bar. This reveals a search box where you can search for a users username. The results of this search are clickable to "Switch To" that user.
 
+And there is an optional mode where you can use a custom keyboard combination, say 'su', and it activates the form where you search for users, and then you can use keyboard arrows to navigate the list of results, and the return key to switch to the selected user. The same combo can be used to focus the 'Switch Off' link, following a return to simulate a click.
+
 **What can be entered into the username search box?**
 
-You can enter the exact username of a user or you can use wildcards to find a user e.g. *another* would find all users with the word another in their username. [See here for more information on wildcard searches](http://codex.wordpress.org/Class_Reference/WP_User_Query#Search_Parameters). Clicking submit with nothing in the search box will search all users except the current logged in user.
+You can enter a user ID, part of / exact username, URL, email, or display name, WordPress automatically chooses the best fields to match to based on your input. [See here for more information on wildcard searches](http://codex.wordpress.org/Class_Reference/WP_User_Query#Search_Parameters). Clicking submit with nothing in the search box will search all users except the current logged in user.
 
 **Has the plugin any filters or actions for developers?**
 
@@ -38,13 +46,19 @@ It does indeed, although not too many! The following filters can be used.
 * abus_switch_to_text - allows developers to change the text that is displayed in the admin menu which, when on hover shows the search box
 * abus_form_output - this filter can be used to change the markup of the form which is used in the plugin for user searching
 * abus_switch_back_text - this filter is used to change the text shown to switch back to the original logged in user
-* abus_switch_to_url- this filter is used to alter the redirect url for different users as the filter is passed to switch to user user object
+* abus_switch_to_url - this filter is used to alter the redirect url for different users as the filter is passed to switch to user user object
+* abus_ajax_args - this is used to activate the magic word combo as described in plugin description, 'magicWord' variable can be added to the array to activate the feature
 
 == Screenshots ==
 
 1. A Switch to user item is added to the WordPress admin bar to allow you to search for a user to switch to.
 
 == Changelog ==
+
+= 1.0.8 =
+* Add keyboard navigation
+* Add magic-word feature, keyboard-only usage of the plugin
+* Focus search input on clicking the admin-bar button
 
 = 1.0.7 =
 * Allow search on any user fields rather than just the login or username

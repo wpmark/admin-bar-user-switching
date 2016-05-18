@@ -1,6 +1,7 @@
 jQuery( function( $ ) {
 
 	var entryButton = $( '#wp-admin-bar-abus_switch_to_user > a' ),
+	    exitButton = $( '#wp-admin-bar-switch_back > a' ),
 	    $wrapper    = $( '#abus_wrapper' ),
 	    $form       = $wrapper.find( 'form' ),
 	    $input      = $form.find( 'input[name="abus_search_text"]' ),
@@ -85,4 +86,44 @@ jQuery( function( $ ) {
 		return false;
 
 	} );
+
+	var magicWord         = ( 'undefined' !== typeof abus_ajax.magicword ? abus_ajax.magicword : '' ),
+	    magicWordProgress = '';
+
+	/**
+	 * Activate search box after typing 'switch' ( or configured word ) in the open ( while not an input is focused )
+	 */
+	if ( magicWord ) {
+		$( document ).on( 'keypress', function( ev ) {
+			var el = $( ev.target );
+
+			if ( el.filter( ':input' ).size() ) {
+				magicWordProgress = '';
+				return;
+			}
+
+			if ( -1 == magicWord.indexOf( magicWordProgress ) ) {
+				magicWordProgress = '';
+			}
+			magicWordProgress += String.fromCharCode( ev.which );
+
+			if ( magicWord === magicWordProgress ) {
+
+				if ( entryButton.length ) {
+					magicWordProgress = '';
+					entryButton.parent().addClass('hover');
+					$input.focus();
+
+					return false;
+				} else if ( exitButton.length ) {
+					magicWordProgress = '';
+					exitButton.focus();
+
+					return false;
+				}
+
+			}
+		} );
+	}
+
 } );
