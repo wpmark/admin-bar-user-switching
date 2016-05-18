@@ -120,4 +120,5 @@ jQuery( function( $ ) {
 			}
 		} );
 	}
+
 } );
