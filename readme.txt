@@ -3,7 +3,7 @@ Contributors: wpmarkuk
 Donate link: http://markwilkinson.me/saythanks/
 Tags: users, user switching
 Requires at least: 3.1
-Tested up to: 4.4
+Tested up to: 4.5.2
 Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -55,12 +55,10 @@ It does indeed, although not too many! The following filters can be used.
 
 == Changelog ==
 
-= 1.0.8 =
+= 1.0.7 =
 * Add keyboard navigation
 * Add magic-word feature, keyboard-only usage of the plugin
-* Focus search input on clicking the admin-bar button
-
-= 1.0.7 =
+* Focus search input on clicking the admin-bar button - thanks to [@shadyvb](https://github.com/shadyvb) for work on these features
 * Allow search on any user fields rather than just the login or username
 * Make the search query parameters extensible with a filter so developers can easily edit them
 * Escape calls to $_POST in the ajax search function
