@@ -210,7 +210,7 @@ function abus_enqueue_scripts() {
 	);
 
 	$args = array(
-		'ajaxurl' => admin_url( 'admin-ajax.php' )
+		'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		'magicWord' => '',
 	);
 
