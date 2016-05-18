@@ -4,7 +4,7 @@ Donate link: http://markwilkinson.me/saythanks/
 Tags: users, user switching
 Requires at least: 3.1
 Tested up to: 4.5.2
-Stable tag: 1.0.7
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,7 +55,7 @@ It does indeed, although not too many! The following filters can be used.
 
 == Changelog ==
 
-= 1.0.7 =
+= 1.1 =
 * Add keyboard navigation
 * Add magic-word feature, keyboard-only usage of the plugin
 * Focus search input on clicking the admin-bar button - thanks to [@shadyvb](https://github.com/shadyvb) for work on these features
