@@ -55,6 +55,10 @@ It does indeed, although not too many! The following filters can be used.
 
 == Changelog ==
 
+= 1.1.1 =
+* Don't enqueue abus_script if user isn't logged in.
+* Don't enqueue jquery manually since it's a depency for abus_script will be enqueued automatically.
+
 = 1.1 =
 * Add keyboard navigation
 * Add magic-word feature, keyboard-only usage of the plugin
