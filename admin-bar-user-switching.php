@@ -222,8 +222,9 @@ function abus_enqueue_scripts() {
 		$args
 	);        
 	
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'abus_script' );
+	if( is_user_logged_in() ) {
+		wp_enqueue_script( 'abus_script' );
+	}
 
 }
 
