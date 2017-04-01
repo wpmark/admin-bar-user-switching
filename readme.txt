@@ -4,7 +4,7 @@ Donate link: http://markwilkinson.me/saythanks/
 Tags: users, user switching
 Requires at least: 3.1
 Tested up to: 4.7.3
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,10 @@ It does indeed, although not too many! The following filters can be used.
 1. A Switch to user item is added to the WordPress admin bar to allow you to search for a user to switch to.
 
 == Changelog ==
+
+= 1.1.1 =
+* Only enqueue js if the user is logged in
+* Do not seperately enqueue jQuery as it is already stated as a dependancy
 
 = 1.1 =
 * Add keyboard navigation
