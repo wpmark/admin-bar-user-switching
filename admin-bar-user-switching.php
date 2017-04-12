@@ -15,16 +15,11 @@
  */
 function abus_current_url( $parse = false ) {
 
-	$s = empty( $_SERVER[ 'HTTPS' ] ) ? '' : ( $_SERVER[ 'HTTPS' ] == 'on' ) ? 's' : '';
-	$protocol = substr( strtolower( $_SERVER[ 'SERVER_PROTOCOL' ] ), 0, strpos( strtolower( $_SERVER[ 'SERVER_PROTOCOL' ] ), '/' ) ) . $s;
-	$port = ( $_SERVER[ 'SERVER_PORT' ] == '80') ? '' : ( ":".$_SERVER[ 'SERVER_PORT' ] );
-	
 	if ( $parse ) {
-		return parse_url( $protocol . "://" . $_SERVER[ 'HTTP_HOST' ] . $port . $_SERVER[ 'REQUEST_URI' ] );
+		return parse_url( get_home_url() . $_SERVER[ 'REQUEST_URI' ] );
 	} else { 
-		return $protocol . "://" . $_SERVER[ 'HTTP_HOST' ] . $port . $_SERVER[ 'REQUEST_URI' ];
+		return get_home_url() . $_SERVER[ 'REQUEST_URI' ];
 	}
-	
 }
 
 /**
