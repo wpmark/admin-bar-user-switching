@@ -5,7 +5,7 @@
  * Description: Building upon the <a href="http://wordpress.org/extend/plugins/user-switching/">User Switching plugin</a> by John Blackbourn this plugin adds a dropdown list of users in the WordPress admin bar with a link to switch to that user, then providing a switch back link in the admin bar too.
  * Author: Mark Wilkinson
  * Author URI: http://markwilkinson.me
- * Version: 1.1.1
+ * Version: 1.1.2
 */
 
 /**
@@ -13,18 +13,9 @@
  * Determine the URL of the currently viewed page - will return array if $parse set to true
  * Taken from https://github.com/scottsweb/null/blob/master/functions.php
  */
-function abus_current_url( $parse = false ) {
+function abus_get_redirect_url( $parse = false ) {
 
-	$s = empty( $_SERVER[ 'HTTPS' ] ) ? '' : ( $_SERVER[ 'HTTPS' ] == 'on' ) ? 's' : '';
-	$protocol = substr( strtolower( $_SERVER[ 'SERVER_PROTOCOL' ] ), 0, strpos( strtolower( $_SERVER[ 'SERVER_PROTOCOL' ] ), '/' ) ) . $s;
-	$port = ( $_SERVER[ 'SERVER_PORT' ] == '80') ? '' : ( ":".$_SERVER[ 'SERVER_PORT' ] );
-	
-	if ( $parse ) {
-		return parse_url( $protocol . "://" . $_SERVER[ 'HTTP_HOST' ] . $port . $_SERVER[ 'REQUEST_URI' ] );
-	} else { 
-		return $protocol . "://" . $_SERVER[ 'HTTP_HOST' ] . $port . $_SERVER[ 'REQUEST_URI' ];
-	}
-	
+	return admin_url();
 }
 
 /**
@@ -92,9 +83,8 @@ function abus_adminbar_output() {
 			$form = '
 				<div id="abus_wrapper">
 					<form method="post" action="abus_user_search">
-						<input id="abus_search_text" name="abus_search_text" type="text" placeholder="Enter a username" />
+						<input id="abus_search_text" name="abus_search_text" autocomplete="off" type="text" placeholder="Enter a username" />
 						<input id="abus_search_submit" name="abus_search_submit" type="submit" />
-						<input name="abus_current_url" type="hidden" value="' . esc_url( abus_current_url() ) . '" />
 						<input name="abus_nonce" type="hidden" value="' . wp_create_nonce( 'abus_nonce' ) . '" />
 					</form>
 					<div id="abus_result"></div>
@@ -122,7 +112,7 @@ function abus_adminbar_output() {
 			$wp_admin_bar->add_menu( array(
 				'id'    => 'switch_back',
 				'title' => apply_filters( 'abus_switch_back_text', 'Switch Back' ),
-				'href'   => esc_url( add_query_arg( array( 'redirect_to' => abus_current_url() ), $abus_switch_back_url ) )
+				'href'   => esc_url( add_query_arg( array( 'redirect_to' => abus_get_redirect_url() ), $abus_switch_back_url ) )
 			) );
 			
 		} // end if old user present
@@ -237,10 +227,45 @@ add_action( 'admin_enqueue_scripts', 'abus_enqueue_scripts' );
  */
 function abus_styles() {
 	
+	global $_wp_admin_css_colors;
+	$hover_color = $_wp_admin_css_colors[get_user_option('admin_color')]->colors[2];
+
 	$styles = '
 		<style type="text/css">
 			#wpadminbar .quicklinks #wp-admin-bar-abus_switch_to_user ul li .ab-item { height: auto; }
 			#abus_user_results { background-color: #000000; }
+			#abus_wrapper #abus_search_text {
+				background-color: #fff;
+				padding-left: 5px;
+			}
+
+			#abus_wrapper #abus_search_text:disabled { 
+				background-image: url("/wp-content/plugins/woocommerce/assets/images/select2-spinner.gif");
+				background-repeat: no-repeat;
+				background-position: center right 5px;
+				padding-left: 5px;
+			}
+
+			#abus_wrapper #abus_search_submit {
+				display: none;
+			}
+
+			#abus_wrapper #abus_result p.result {
+				background-color: #222;
+				margin-top: 1px;
+			}
+
+			#abus_wrapper #abus_result p.result.active, #abus_wrapper #abus_result p.result:hover {
+				background-color: ' . $hover_color. ';
+				color: #fff;
+				padding-left: 5px;
+			}
+
+			#abus_wrapper #abus_result p.result.active a, #abus_wrapper #abus_result p.result:hover a {
+				color: #fff;
+				padding-left: 5px;
+			}
+
 		</style>
 	';
 	
