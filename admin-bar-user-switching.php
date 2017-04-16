@@ -15,7 +15,7 @@
  */
 function abus_get_redirect_url( $parse = false ) {
 
-	return admin_url();
+	return apply_filters( 'abus_switch_to_redirect', admin_url() );
 }
 
 /**
