@@ -87,7 +87,7 @@ jQuery( function( $ ) {
 
 	} );
 
-	var magicWord         = ( 'undefined' !== typeof abus_ajax.magicword ? abus_ajax.magicword : '' ),
+	var magicWord         = ( 'undefined' !== typeof abus_ajax.magicWord ? abus_ajax.magicWord : '' ),
 	    magicWordProgress = '';
 
 	/**
