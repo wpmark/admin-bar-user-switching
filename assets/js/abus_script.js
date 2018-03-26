@@ -2,25 +2,32 @@ jQuery( function( $ ) {
 
 	var entryButton = $( '#wp-admin-bar-abus_switch_to_user > a' ),
 	    exitButton = $( '#wp-admin-bar-switch_back > a' ),
-	    $wrapper    = $( '#abus_wrapper' ),
+	    $wrapper    = $( '#wp-admin-bar-abus_switch_to_user' ),
 	    $form       = $wrapper.find( 'form' ),
 	    $input      = $form.find( 'input[name="abus_search_text"]' ),
 	    currenturl  = $form.find( 'input[name="abus_current_url"]' ).val(),
 	    nonce       = $form.find( 'input[name="abus_nonce"]' ).val(),
-	    $content    = $wrapper.find( '#abus_result' )
+	    $form_li    = $('#wp-admin-bar-abus_user_search')
 		;
 
+	$( '#abus_search_text' ).on({
+		focus: function() {
+			$( '#wp-admin-bar-abus_switch_to_user #adminbarsearch' ).addClass( 'adminbar-focused' );
+		}, blur: function() {
+			$( '#wp-admin-bar-abus_switch_to_user #adminbarsearch' ).removeClass( 'adminbar-focused' );
+		}
+	} );
 
 	// Clicking the admin-bar entry focuses the text box
 	entryButton.on( 'click', function() {
-		$input.focus();
-
-		return false;
+		setTimeout(function(){
+			$input.focus();
+		});
 	} );
 
 	// Navigate through results using arrows
-	$wrapper.on( 'keydown', '.result', function( ev ) {
-		var results = $wrapper.find( '.abus_user_results .result' ),
+	$wrapper.on( 'keydown', '.switch-to-user', function( ev ) {
+		var results = $wrapper.find( '#wp-admin-bar-abus_switch_to_user-default .switch-to-user' ),
 		    active  = results.filter( '.active' ),
 		    idx     = 0;
 
@@ -70,15 +77,14 @@ jQuery( function( $ ) {
 			        },
 			        beforeSend : function() {
 				        $input.prop( 'disabled', true );
-				        $content.addClass( 'loading' );
+				        $form_li.nextAll('li').remove();
 			        },
 			        success : function( response ) {
 				        $input.prop( 'disabled', false );
-				        $content.removeClass( 'loading' );
-				        $content.html( response );
+				        $form_li.after( response );
 
 				        // Focus the first result
-				        $content.find( '.result:eq(0)' ).addClass( 'active' )
+				       $("#wp-admin-bar-abus_switch_to_user-default").find( '.switch-to-user:eq(0)' ).addClass( 'active' )
 					        .find( 'a' ).focus();
 			        }
 		        } );
