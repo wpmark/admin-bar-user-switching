@@ -5,8 +5,9 @@
  * Description: Building upon the <a href="http://wordpress.org/extend/plugins/user-switching/">User Switching plugin</a> by John Blackbourn this plugin adds a dropdown list of users in the WordPress admin bar with a link to switch to that user, then providing a switch back link in the admin bar too.
  * Author: Mark Wilkinson
  * Author URI: http://markwilkinson.me
- * Version: 1.1.2
-*/
+ * Version: 1.1.1
+ * Text Domain: admin-bar-user-switching
+ */
 
 /**
  * Function abus_current_url
@@ -36,7 +37,7 @@ function abus_error() {
 	
 		deactivate_plugins( 'admin-bar-user-switching/admin-bar-user-switching.php', 'admin-bar-user-switching.php' );
 	
-		echo '<div class="error"><p>This plugin has <strong>been deactivated</strong>. The reason for this, is that it requires the User Switching plugin in order to work. Please install the User Switching plugin, then activate this plugin again. <strong>Please ignore the Plugin Activated message below</strong>.</p></div>';
+		echo '<div class="error"><p>' . __( 'This plugin has <strong>been deactivated</strong>. The reason for this, is that it requires the User Switching plugin in order to work. Please install the User Switching plugin, then activate this plugin again. <strong>Please ignore the Plugin Activated message below</strong>.', 'admin-bar-user-switching' ) . '</p></div>';
 	
 	}
 	
@@ -71,7 +72,7 @@ function abus_adminbar_output() {
 			$wp_admin_bar->add_menu(
 				array(
 					'id'    => 'abus_switch_to_user',
-					'title' => apply_filters( 'abus_switch_to_text', 'Switch to User' ),
+					'title' => apply_filters( 'abus_switch_to_text', esc_html__( 'Switch to User', 'admin-bar-user-switching' ) ),
 					'href'  => '#',
 				)
 			);
@@ -83,7 +84,7 @@ function abus_adminbar_output() {
 			$form = '
 				<div id="abus_wrapper">
 					<form method="post" action="abus_user_search">
-						<input id="abus_search_text" name="abus_search_text" autocomplete="off" type="text" placeholder="Enter a username" />
+						<input id="abus_search_text" name="abus_search_text" type="text" placeholder="' . esc_attr__( 'Enter a username', 'admin-bar-user-switching' ) . '" />
 						<input id="abus_search_submit" name="abus_search_submit" type="submit" />
 						<input name="abus_nonce" type="hidden" value="' . wp_create_nonce( 'abus_nonce' ) . '" />
 					</form>
@@ -111,7 +112,7 @@ function abus_adminbar_output() {
 			/* we are logged in throught swtiching so add admin bar menu to create the switch back link */
 			$wp_admin_bar->add_menu( array(
 				'id'    => 'switch_back',
-				'title' => apply_filters( 'abus_switch_back_text', 'Switch Back' ),
+				'title' => apply_filters( 'abus_switch_back_text', esc_html__( 'Switch Back', 'admin-bar-user-switching' ) ),
 				'href'   => esc_url( add_query_arg( array( 'redirect_to' => abus_get_redirect_url() ), $abus_switch_back_url ) )
 			) );
 			
@@ -175,7 +176,7 @@ function abus_user_search() {
 	/* no users match search */
 	} else {
 		
-		echo '<p class="result">No users found.</p>';
+		echo '<p class="result">' . esc_html__( 'No users found.', 'admin-bar-user-switching' ) . '</p>';
 		
 	}
 	
