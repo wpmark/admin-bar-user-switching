@@ -223,7 +223,10 @@ function abus_enqueue_scripts() {
 		$args
 	);        
 	
-	if( is_user_logged_in() ) {
+	global $user_switching;
+	if( is_user_logged_in() && is_admin_bar_showing() &&
+	    ( current_user_can( apply_filters( 'abus_switch_to_capability', 'edit_users' ) ) || $user_switching->get_old_user() )
+	) {
 		wp_enqueue_script( 'abus_script' );
 	}
 
