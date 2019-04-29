@@ -56,8 +56,8 @@ It does indeed, although not too many! The following filters can be used.
 == Changelog ==
 
 = 1.1.1 =
-* Only enqueue js if the user is logged in
-* Do not seperately enqueue jQuery as it is already stated as a dependancy
+* Don't enqueue abus_script if user isn't logged in.
+* Don't enqueue jquery manually since it's a depency for abus_script will be enqueued automatically.
 
 = 1.1 =
 * Add keyboard navigation
